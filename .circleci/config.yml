@@ -7,7 +7,9 @@ orbs:
 workflows:
   elastic-beanstalk-workflow:
     jobs:
-      - node
+      - install:
+          name: Install Node Packages.
+          command: npm i
       - eb/deploy:
           context: aws-creds
           environment-name: Circledev-env
@@ -17,4 +19,4 @@ workflows:
                 - main
           label: version-<<pipeline.number>>
           requires:
-            - node
+            - install
