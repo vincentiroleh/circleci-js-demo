@@ -28,6 +28,7 @@ jobs:
       - eb/setup
       - run:
           command: |
+            eb init
             eb create v8-environment
             eb deploy v8-environment
             eb status
