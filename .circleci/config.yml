@@ -7,7 +7,7 @@ orbs:
 workflows:
   elastic-beanstalk-workflow:
     jobs:
-      - install:
+      - run:
           name: Install Node Packages.
           command: npm i
       - eb/deploy:
@@ -17,6 +17,4 @@ workflows:
             branches:
               only:
                 - main
-          label: version-<<pipeline.number>>
-          requires:
-            - install
+          
