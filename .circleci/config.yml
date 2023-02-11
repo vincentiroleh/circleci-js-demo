@@ -7,7 +7,7 @@ orbs:
 workflows:
   elastic-beanstalk-workflow:
     jobs:
-      - node/test
+      - node
       - eb/deploy:
           context: aws-creds
           environment-name: Circledev-env
@@ -17,4 +17,4 @@ workflows:
                 - main
           label: version-<<pipeline.number>>
           requires:
-            - node/test
+            - node
