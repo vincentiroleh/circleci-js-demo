@@ -1,17 +1,38 @@
-version: 2.1
+# version: 2.1
 
+# orbs:
+#   eb: circleci/aws-elastic-beanstalk@1.0.0
+#   node: circleci/node@4.1.0
+
+# workflows:
+#   elastic-beanstalk-workflow:
+#     jobs:      
+#       - eb/deploy:
+#           context: aws-creds
+#           environment-name: Circledev-env
+#           filters:
+#             branches:
+#               only:
+#                 - main
+          
+
+version: 2.1
 orbs:
   eb: circleci/aws-elastic-beanstalk@1.0.0
-  node: circleci/node@4.1.0
-
+jobs:
+  eb-demo:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - checkout
+      - eb/setup
+      - run:
+          command: |
+            eb create v8-environment
+            eb deploy v8-environment
+            eb status
+          name: You may now use the EB CLI within this job
 workflows:
   elastic-beanstalk-workflow:
-    jobs:      
-      - eb/deploy:
-          context: aws-creds
-          environment-name: Circledev-env
-          filters:
-            branches:
-              only:
-                - main
-          
+    jobs:
+      - eb-demo
