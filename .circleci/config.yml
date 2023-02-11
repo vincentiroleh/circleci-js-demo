@@ -2,20 +2,26 @@ version: 2.1
 
 orbs:
   node: circleci/node@5.0.2
+  aws-elastic-beanstalk: circleci/aws-elastic-beanstalk@2.0.1
 
 jobs:
   build_and_test: # this can be any name you choose
     executor: node/default # use the default executor defined within the orb
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
-      - run:
-          command: npm run test
-          name: Run tests
-      
+      - node/test
+      - eb/deploy:
+          context: aws-creds
+          environment-name: Circledev-env
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - node/test
 
 workflows:
   test_my_app:
     jobs:
-      - build_and_test
+      - node/test
+      - eb/deploy
